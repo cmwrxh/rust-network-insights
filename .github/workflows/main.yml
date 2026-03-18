@@ -1,0 +1,21 @@
+name: Daily Heartbeat
+on:
+  schedule:
+    - cron: '0 */3 * * *' # Every 3 hours
+  workflow_dispatch:      # Allows you to run it manually
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update Heartbeat
+        run: |
+          echo "## AlphaCore Action Pulse: $(date)" >> heartbeat.md
+          git config --global user.name 'cmwrxh'
+          git config --global user.email 'mwauracharles95@.com'
+          git add heartbeat.md
+          git commit -m "sys: automated action pulse"
+          git push
